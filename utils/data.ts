@@ -1,5 +1,5 @@
 import useSWR, { mutate } from "swr";
-import { Image, Money } from "./types.ts";
+import { Image, Money } from "@/utils/types.ts";
 
 export interface CartData {
   id: string;
@@ -75,14 +75,14 @@ async function shopifyGraphql<T = any>(
 async function cartFetcher(): Promise<CartData> {
   const id = localStorage.getItem("cartId");
   if (id === null) {
-    const { cartCreate } = await shopifyGraphql<
-      { cartCreate: { cart: CartData } }
-    >(`mutation { cartCreate { cart ${CART_QUERY} } }`);
+    const { cartCreate } = await shopifyGraphql<{
+      cartCreate: { cart: CartData };
+    }>(`mutation { cartCreate { cart ${CART_QUERY} } }`);
     localStorage.setItem("cartId", cartCreate.cart.id);
     return cartCreate.cart;
   }
 
-  const { cart } = await shopifyGraphql(
+  const { cart } = await shopifyGraphql<{ cart: CartData }>(
     `query($id: ID!) { cart(id: $id) ${CART_QUERY} }`,
     { id },
   );
@@ -136,6 +136,7 @@ export async function removeFromCart(cartId: string, lineItemId: string) {
 }
 
 export function formatCurrency(amount: Money) {
+  if (!amount) return "";
   const intl = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: amount.currencyCode,

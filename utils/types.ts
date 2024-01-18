@@ -21,14 +21,13 @@ export interface ProductPriceRange {
 
 export interface Product {
   id: string;
-  handle: string;
   title: string;
   description: string;
-  descriptionHtml: string;
-  productType: string;
+  type: string;
   featuredImage: Image | null;
-  images?: List<Image>;
-  variants: List<ProductVariant>;
+  images?: Image[];
+  available?: boolean;
+  variants: ProductVariant[];
   priceRange: ProductPriceRange;
 }
 

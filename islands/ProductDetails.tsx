@@ -16,7 +16,7 @@ const descriptionStyles = css({
 });
 
 export default function ProductDetails({ product }: { product: Product }) {
-  const [variant, setVariant] = useState(product.variants.nodes[0]);
+  const [variant, setVariant] = useState(product.variants[0]);
   let index = 0;
 
   function changeImage(delta: number) {
@@ -24,12 +24,12 @@ export default function ProductDetails({ product }: { product: Product }) {
 
     index += delta;
     if (index < 0) {
-      index = product.images.nodes.length - 1;
-    } else if (index >= product.images.nodes.length) {
+      index = product.images.length - 1;
+    } else if (index >= product.images.length) {
       index = 0;
     }
 
-    const newImage = product.images.nodes[index];
+    const newImage = product.images[index];
     const imageElement = document.querySelector(
       "#productImage",
     ) as HTMLImageElement;
@@ -60,11 +60,14 @@ export default function ProductDetails({ product }: { product: Product }) {
                 {product.title}
               </h2>
               <h3 class="text-gray-500 text-base leading-tight">
-                {product.productType}
+                {product.type}
               </h3>
             </hgroup>
             <div class="bg-[#E8E7E5] rounded-full px-6 py-2 text-lg text-gray-900 font-bold">
-              {formatCurrency(variant.priceV2)}
+              {formatCurrency({
+                amount: 100000,
+                currencyCode: "VND",
+              })}
             </div>
           </div>
         </div>
@@ -77,7 +80,7 @@ export default function ProductDetails({ product }: { product: Product }) {
             Product information
           </h2>
 
-          {!variant.availableForSale && (
+          {!product.available && (
             <div class="flex items-center">
               <p class="text-base text-gray-500">
                 Out of stock
@@ -88,8 +91,9 @@ export default function ProductDetails({ product }: { product: Product }) {
           <div class="mt-4 space-y-6">
             <p
               class={tw`text-base text-gray-600 ${descriptionStyles}`}
-              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-            />
+            >
+              {product.description}
+            </p>
           </div>
         </section>
       </div>
@@ -112,7 +116,7 @@ export default function ProductDetails({ product }: { product: Product }) {
             />
           )}
 
-          {(product?.images?.nodes?.length ?? 0) > 1 && (
+          {(product?.images?.length ?? 0) > 1 && (
             <div>
               <button
                 class="absolute w-16 opacity-50 hover:opacity-100 top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
@@ -176,7 +180,7 @@ export default function ProductDetails({ product }: { product: Product }) {
       {/* Product form */}
       <div class="mt-12 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
         <section aria-labelledby="options-heading">
-          {product.variants.nodes.length > 1 && (
+          {product.variants.length > 1 && (
             <div class="group">
               <div class="relative p-4 flex items-center justify-between rounded-lg border-2 border-gray-300 group-hover:border-gray-400 transition-colors">
                 <span>{/* space holderplace, don't remove */}</span>
@@ -211,7 +215,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                     )}
                   class="absolute pl-4 top-0 left-0 block w-full h-full rounded-lg appearance-none bg-transparent cursor-pointer"
                 >
-                  {product.variants.nodes.map((variant) => {
+                  {product.variants.map((variant) => {
                     return (
                       <option value={JSON.stringify(variant)}>
                         {variant.title}
@@ -222,9 +226,9 @@ export default function ProductDetails({ product }: { product: Product }) {
               </div>
             </div>
           )}
-          {variant.availableForSale && (
+          {product.available && (
             <div class="mt-4">
-              <AddToCart id={variant.id} />
+              <AddToCart id={product.id} />
             </div>
           )}
         </section>

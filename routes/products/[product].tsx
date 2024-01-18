@@ -1,7 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Footer } from "@/components/Footer.tsx";
 import { HeadElement } from "@/components/HeadElement.tsx";
-import { Header } from "@/components/Header.tsx";
 import ProductDetails from "@/islands/ProductDetails.tsx";
 import { graphql } from "@/utils/shopify.ts";
 import { Product } from "@/utils/types.ts";
@@ -10,8 +9,7 @@ const q = `query ($product: String!) {
   product(handle: $product) {
     title
     description
-    descriptionHtml
-    productType
+    type
 
     variants(first: 10) {
       nodes {
@@ -49,11 +47,37 @@ interface Query {
 
 export const handler: Handlers<Query> = {
   async GET(_req, ctx) {
-    const data = await graphql<Query>(q, { product: ctx.params.product });
-    if (!data.product) {
-      return new Response("Product not found", { status: 404 });
+    try {
+      const data = await graphql<Query>(q, { product: ctx.params.product });
+      return ctx.render(data);
+    } catch (error) {
+      return ctx.render({
+        product: {
+          id: "prod1",
+          title: "product 1",
+          description: "Product 1 description",
+          type: "sheet",
+          featuredImage: {
+            url: "/screen_shot.png",
+            altText: "prod1",
+            width: 400,
+            height: 400,
+          },
+          images: [],
+          variants: [],
+          priceRange: {
+            minVariantPrice: {
+              amount: 100000,
+              currencyCode: "VND",
+            },
+            maxVariantPrice: {
+              amount: 100000,
+              currencyCode: "VND",
+            },
+          },
+        },
+      });
     }
-    return ctx.render(data);
   },
 };
 
@@ -73,10 +97,7 @@ export default function ProductPage(ctx: PageProps<Query>) {
         url={url}
       />
 
-      <Header />
-      <div
-        class="w-11/12 mt-16 max-w-5xl mx-auto flex items-center justify-between relative"
-      >
+      <div class="w-11/12 mt-16 max-w-5xl mx-auto flex items-center justify-between relative">
         <a
           href="/"
           class="flex items-center gap-2 text-gray-400 hover:text-gray-800 transition-colors duration-200"
@@ -97,7 +118,6 @@ export default function ProductPage(ctx: PageProps<Query>) {
         </a>
       </div>
       <ProductDetails product={data.product!} />
-      <Footer />
     </>
   );
 }
