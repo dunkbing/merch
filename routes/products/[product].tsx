@@ -1,5 +1,4 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { Footer } from "@/components/Footer.tsx";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import ProductDetails from "@/islands/ProductDetails.tsx";
 import { graphql } from "@/utils/shopify.ts";
@@ -63,7 +62,20 @@ export const handler: Handlers<Query> = {
             width: 400,
             height: 400,
           },
-          images: [],
+          images: [
+            {
+              url: "/screen_shot.png",
+              altText: "prod1",
+              width: 400,
+              height: 400,
+            },
+            {
+              url: "/screen_shot_2.png",
+              altText: "prod1",
+              width: 400,
+              height: 400,
+            },
+          ],
           variants: [],
           priceRange: {
             minVariantPrice: {

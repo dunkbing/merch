@@ -1,19 +1,7 @@
 import { useState } from "preact/hooks";
-import { tw } from "twind";
-import { css } from "twind/css";
-import { aspectRatio } from "@twind/aspect-ratio";
 import AddToCart from "@/islands/AddToCart.tsx";
 import { formatCurrency } from "@/utils/data.ts";
 import { Product } from "@/utils/types.ts";
-
-const descriptionStyles = css({
-  "a": {
-    color: "#056CF0",
-  },
-  "a:hover": {
-    textDecoration: "underline",
-  },
-});
 
 export default function ProductDetails({ product }: { product: Product }) {
   const [variant, setVariant] = useState(product.variants[0]);
@@ -90,7 +78,7 @@ export default function ProductDetails({ product }: { product: Product }) {
 
           <div class="mt-4 space-y-6">
             <p
-              class={tw`text-base text-gray-600 ${descriptionStyles}`}
+              class={`text-base text-gray-600`}
             >
               {product.description}
             </p>
@@ -100,11 +88,9 @@ export default function ProductDetails({ product }: { product: Product }) {
 
       {/* Product image */}
       <div
-        class={tw`${
-          aspectRatio(1, 1)
-        } w-full bg-white rounded-xl border-2 border-gray-200 mt-12 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-start`}
+        class={`aspect-square relative w-full bg-white rounded-xl border-2 border-gray-200 mt-12 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-start`}
       >
-        <div class="rounded-lg overflow-hidden">
+        <div class="rounded-lg overflow-hidden h-full relative">
           {product.featuredImage && (
             <img
               id="productImage"
@@ -115,11 +101,10 @@ export default function ProductDetails({ product }: { product: Product }) {
               class="w-full h-full object-center object-contain"
             />
           )}
-
           {(product?.images?.length ?? 0) > 1 && (
-            <div>
+            <div class="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-between">
               <button
-                class="absolute w-16 opacity-50 hover:opacity-100 top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
+                class="w-16 opacity-50 hover:opacity-100 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline"
                 type="button"
                 onClick={() => {
                   changeImage(-1);
@@ -146,7 +131,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                 </span>
               </button>
               <button
-                class="absolute w-16 opacity-50 hover:opacity-100 top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline right-0"
+                class="w-16 opacity-50 hover:opacity-100 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline"
                 type="button"
                 onClick={() => {
                   changeImage(1);

@@ -8,6 +8,7 @@ export default function App({ Component }: PageProps) {
     <>
       <Head>
         <link rel="stylesheet" href="/app.css" />
+        <link rel="stylesheet" href="/styles.css" />
       </Head>
       <Header />
       <Component />

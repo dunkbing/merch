@@ -1,5 +1,4 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { tw } from "twind";
 import { aspectRatio } from "@twind/aspect-ratio";
 import { formatCurrency } from "@/utils/data.ts";
 import { graphql } from "@/utils/shopify.ts";
@@ -83,12 +82,7 @@ function ProductCard(props: { product: Product }) {
   return (
     <a key={product.id} href={`/products/${product.id}`} class="group">
       <div
-        class={tw`${
-          aspectRatio(
-            1,
-            1,
-          )
-        } w-full bg-white rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-500 relative`}
+        class={`aspect-square w-full bg-white rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-500 relative`}
       >
         {product.featuredImage && (
           <img
