@@ -21,7 +21,7 @@ export const handler: Handlers<Data> = {
         products: [
           {
             id: "prod1",
-            title: "product 1",
+            name: "product 1",
             description: "Error",
             type: "Error",
             featuredImage: {
@@ -99,7 +99,7 @@ function ProductCard(props: { product: Product }) {
       </div>
       <div class="flex items-center justify-between mt-3">
         <h3 class="text-lg text-gray-800 font-medium relative">
-          {product.title}
+          {product.name}
           <span class="bg-gray-800 h-[3px] w-0 group-hover:!w-full absolute bottom-[-2px] left-0 transition-all duration-400" />
         </h3>
         <strong class="text-lg font-bold text-gray-800">

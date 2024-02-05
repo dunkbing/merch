@@ -21,14 +21,16 @@ export interface ProductPriceRange {
 
 export interface Product {
   id: string;
-  title: string;
+  ls_id: string; //lemon_squeezy id
+  name: string;
+  slug: string;
   description: string;
-  type: string;
-  featuredImage: Image | null;
-  images?: Image[];
-  available?: boolean;
-  variants: ProductVariant[];
-  priceRange: ProductPriceRange;
+  instruments: string[];
+  price: number;
+  price_formatted: string;
+  thumb_url: string;
+  buy_now_url: string;
+  category_ids: string[];
 }
 
 export interface ProductVariant {
@@ -36,4 +38,10 @@ export interface ProductVariant {
   priceV2: Money;
   title: string;
   availableForSale: boolean;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
 }

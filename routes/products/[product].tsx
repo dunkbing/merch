@@ -53,7 +53,7 @@ export const handler: Handlers<Query> = {
       return ctx.render({
         product: {
           id: "prod1",
-          title: "product 1",
+          name: "product 1",
           description: "Product 1 description",
           type: "sheet",
           featuredImage: {
@@ -105,7 +105,7 @@ export default function ProductPage(ctx: PageProps<Query>) {
       <HeadElement
         description={data.product.description}
         image={data.product.featuredImage?.url}
-        title={data.product.title}
+        title={data.product.name}
         url={url}
       />
 
