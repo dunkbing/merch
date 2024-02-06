@@ -1,26 +1,14 @@
 import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import IconCart from "@/components/IconCart.tsx";
-import {
-  CartData,
-  formatCurrency,
-  removeFromCart,
-  useCart,
-} from "@/utils/data.ts";
+import { formatCurrency, removeFromCart, useCart } from "@/utils/data.ts";
 
 // Lazy load a <dialog> polyfill.
 // @ts-expect-error HTMLDialogElement is not just a type!
-if (IS_BROWSER && window.HTMLDialogElement === "undefined") {
+if (IS_BROWSER && globalThis.HTMLDialogElement === "undefined") {
   await import(
     "https://raw.githubusercontent.com/GoogleChrome/dialog-polyfill/5033aac1b74c44f36cde47be3d11f4756f3f8fda/dist/dialog-polyfill.esm.js"
   );
-}
-
-declare global {
-  interface HTMLDialogElement {
-    showModal(): void;
-    close(): void;
-  }
 }
 
 const slideRight =
@@ -50,40 +38,44 @@ export default function Cart() {
     <div>
       <button
         onClick={() => ref.current!.showModal()}
-        class="flex items-center gap-2 items-center border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
+        class="flex items-center gap-2 border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
       >
         <IconCart />
-        {data?.lines.nodes.length ?? "0"}
+        {data?.length ?? "0"}
       </button>
       <dialog
         ref={ref}
         class={`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
         onClick={onDialogClick}
       >
-        <CartInner cart={data} />
+        <CartInner />
       </dialog>
     </div>
   );
 }
 
-function CartInner(props: { cart: CartData | undefined }) {
+function CartInner() {
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
-  const { data: cart } = useCart();
+  const { data: cart, error } = useCart();
 
   const checkout = (e: Event) => {
     e.preventDefault();
-    if (cart) {
-      location.href = cart.checkoutUrl;
+    if (cart?.length) {
+      // location.href = products.checkoutUrl;
     }
   };
 
   const remove = (itemId: string) => {
     if (cart) {
-      removeFromCart(cart.id, itemId);
+      removeFromCart(cart, itemId);
     }
   };
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div class={card}>
@@ -104,47 +96,42 @@ function CartInner(props: { cart: CartData | undefined }) {
           </svg>
         </button>
       </div>
-      {props.cart && (
+      {cart && (
         <div class="flex-grow-1 my-4">
-          {props.cart.lines.nodes.length === 0
+          {cart.length === 0
             ? <p class="text-gray-700">There are no items in the cart.</p>
             : (
               <ul role="list" class="-my-6 divide-y divide-gray-200">
-                {props.cart.lines.nodes.map((line) => (
+                {cart.map((p) => (
                   <li class="flex py-6">
                     <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
-                        src={line.merchandise.image.url}
-                        alt={line.merchandise.image.altText ??
-                          line.merchandise.product.title}
+                        src={p.thumb_url}
+                        alt={p.name}
                         class="h-full w-full object-cover object-center"
                       />
                     </div>
                     <div class="ml-4 flex flex-1 flex-col">
                       <div>
                         <div class="flex justify-between text-base font-medium text-gray-900">
-                          <h3>{line.merchandise.product.title}</h3>
+                          <h3>{p.name}</h3>
                           <p class="ml-4">
-                            {formatCurrency(line.estimatedCost.totalAmount)}
+                            {formatCurrency({
+                              amount: p.price,
+                              currencyCode: "VND",
+                            })}
                           </p>
                         </div>
                         <p class="mt-1 text-sm text-gray-500">
-                          {line.merchandise.title !==
-                              line.merchandise.product.title
-                            ? line.merchandise.title
-                            : ""}
+                          {p.name}
                         </p>
                       </div>
                       <div class="flex flex-1 items-end justify-between text-sm">
-                        <p class="text-gray-500">
-                          Quantity <strong>{line.quantity}</strong>
-                        </p>
-
                         <div class="flex">
                           <button
                             type="button"
                             class="font-medium"
-                            onClick={() => remove(line.id)}
+                            onClick={() => remove(p.id)}
                           >
                             Remove
                           </button>
@@ -157,11 +144,11 @@ function CartInner(props: { cart: CartData | undefined }) {
             )}
         </div>
       )}
-      {props.cart && (
+      {cart && (
         <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
           <div class="flex justify-between text-lg font-medium">
             <p>Subtotal</p>
-            <p>{formatCurrency(props.cart.estimatedCost.totalAmount)}</p>
+            {/* <p>{formatCurrency(cart.estimatedCost.totalAmount)}</p> */}
           </div>
           <p class="mt-0.5 text-sm text-gray-500">
             Shipping and taxes calculated at checkout.
@@ -170,7 +157,7 @@ function CartInner(props: { cart: CartData | undefined }) {
             <button
               type="button"
               class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-              disabled={props.cart.lines.nodes.length === 0}
+              disabled={cart.length === 0}
               onClick={checkout}
             >
               Checkout

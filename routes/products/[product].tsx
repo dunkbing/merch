@@ -1,8 +1,8 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import ProductDetails from "@/islands/ProductDetails.tsx";
-import { graphql } from "@/utils/shopify.ts";
 import { Product } from "@/utils/types.ts";
+import { getProduct } from "@/utils/db/product.ts";
 
 const q = `query ($product: String!) {
   product(handle: $product) {
@@ -47,47 +47,11 @@ interface Query {
 export const handler: Handlers<Query> = {
   async GET(_req, ctx) {
     try {
-      const data = await graphql<Query>(q, { product: ctx.params.product });
-      return ctx.render(data);
+      const product = await getProduct(ctx.params.product);
+      return ctx.render({ product });
     } catch (error) {
       return ctx.render({
-        product: {
-          id: "prod1",
-          name: "product 1",
-          description: "Product 1 description",
-          type: "sheet",
-          featuredImage: {
-            url: "/screen_shot.png",
-            altText: "prod1",
-            width: 400,
-            height: 400,
-          },
-          images: [
-            {
-              url: "/screen_shot.png",
-              altText: "prod1",
-              width: 400,
-              height: 400,
-            },
-            {
-              url: "/screen_shot_2.png",
-              altText: "prod1",
-              width: 400,
-              height: 400,
-            },
-          ],
-          variants: [],
-          priceRange: {
-            minVariantPrice: {
-              amount: 100000,
-              currencyCode: "VND",
-            },
-            maxVariantPrice: {
-              amount: 100000,
-              currencyCode: "VND",
-            },
-          },
-        },
+        product: null,
       });
     }
   },
@@ -104,7 +68,7 @@ export default function ProductPage(ctx: PageProps<Query>) {
     <>
       <HeadElement
         description={data.product.description}
-        image={data.product.featuredImage?.url}
+        image={data.product.thumb_url}
         title={data.product.name}
         url={url}
       />

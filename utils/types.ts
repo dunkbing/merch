@@ -30,6 +30,7 @@ export interface Product {
   price_formatted: string;
   thumb_url: string;
   buy_now_url: string;
+  images: string[];
   category_ids: string[];
 }
 

@@ -1,10 +1,8 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { aspectRatio } from "@twind/aspect-ratio";
-import { formatCurrency } from "@/utils/data.ts";
-import { graphql } from "@/utils/shopify.ts";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import IconCart from "@/components/IconCart.tsx";
 import { Product } from "@/utils/types.ts";
+import { getProducts } from "@/utils/db/product.ts";
 
 interface Data {
   products: Product[];
@@ -13,37 +11,12 @@ interface Data {
 export const handler: Handlers<Data> = {
   async GET(_req, ctx) {
     try {
-      const data = await graphql<Data>("");
-      return ctx.render(data);
+      const products = await getProducts({});
+      return ctx.render({ products });
     } catch (error) {
       console.error(error);
       return ctx.render({
-        products: [
-          {
-            id: "prod1",
-            name: "product 1",
-            description: "Error",
-            type: "Error",
-            featuredImage: {
-              url: "/screen_shot.png",
-              altText: "prod1",
-              width: 400,
-              height: 400,
-            },
-            images: [],
-            variants: [],
-            priceRange: {
-              minVariantPrice: {
-                amount: 100000,
-                currencyCode: "VND",
-              },
-              maxVariantPrice: {
-                amount: 100000,
-                currencyCode: "VND",
-              },
-            },
-          },
-        ],
+        products: [],
       });
     }
   },
@@ -84,10 +57,10 @@ function ProductCard(props: { product: Product }) {
       <div
         class={`aspect-square w-full bg-white rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-500 relative`}
       >
-        {product.featuredImage && (
+        {product.thumb_url && (
           <img
-            src={product.featuredImage.url}
-            alt={product.featuredImage.altText}
+            src={product.thumb_url}
+            alt={product.name}
             width="400"
             height="400"
             class="w-full h-full object-center object-contain absolute block"
@@ -103,7 +76,7 @@ function ProductCard(props: { product: Product }) {
           <span class="bg-gray-800 h-[3px] w-0 group-hover:!w-full absolute bottom-[-2px] left-0 transition-all duration-400" />
         </h3>
         <strong class="text-lg font-bold text-gray-800">
-          {formatCurrency(product.priceRange.minVariantPrice)}
+          {product.price_formatted}
         </strong>
       </div>
     </a>

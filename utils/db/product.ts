@@ -1,5 +1,5 @@
 import { Product } from "@/utils/types.ts";
-import { dbClient } from "@/utils/db/db.ts";
+import { dbClient, getDbPagination } from "@/utils/db/db.ts";
 import { ulid } from "$std/ulid/mod.ts";
 
 export const importProducts = async (products: Omit<Product, "id">[]) => {
@@ -122,4 +122,26 @@ export async function updateProduct(
   });
 
   return getProduct(id);
+}
+
+export async function getProducts(
+  filters: Pagination & Search = {},
+): Promise<Product[]> {
+  const { query } = filters;
+  const { limit, offset } = getDbPagination(filters);
+
+  const rs = await dbClient.execute({
+    sql: `
+      SELECT * FROM products
+      ${query ? `WHERE name LIKE '%${query}%'` : ""}
+      LIMIT ? OFFSET ?
+    `,
+    args: [limit, offset],
+  });
+  const rows = rs.rows;
+
+  return rows.map((row) => ({
+    id: row.id,
+    ...row,
+  } as unknown as Product));
 }
