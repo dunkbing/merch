@@ -4,42 +4,6 @@ import ProductDetails from "@/islands/ProductDetails.tsx";
 import { Product } from "@/utils/types.ts";
 import { getProduct } from "@/utils/db/product.ts";
 
-const q = `query ($product: String!) {
-  product(handle: $product) {
-    title
-    description
-    type
-
-    variants(first: 10) {
-      nodes {
-        id
-        title
-        availableForSale
-        priceV2 {
-          amount
-          currencyCode
-        }
-      }
-    }
-
-    featuredImage {
-      url(transform: {preferredContentType: WEBP, maxWidth:400, maxHeight:400})
-      width
-      height
-      altText
-    }
-
-    images(first: 10) {
-      nodes {
-        url(transform: {preferredContentType: WEBP, maxWidth:400, maxHeight:400})
-        width
-        height
-        altText
-      }
-    }
-  }
-}`;
-
 interface Query {
   product: Product | null;
 }
@@ -90,7 +54,7 @@ export default function ProductPage(ctx: PageProps<Query>) {
               fill="currentColor"
             />
           </svg>
-          Back to shop
+          Quay lại
         </a>
       </div>
       <ProductDetails product={data.product!} />

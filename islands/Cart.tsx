@@ -1,7 +1,15 @@
 import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import IconPlus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/plus.tsx";
+import IconMinus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/minus.tsx";
+
 import IconCart from "@/components/IconCart.tsx";
-import { formatCurrency, removeFromCart, useCart } from "@/utils/data.ts";
+import {
+  changeQuantity,
+  formatCurrency,
+  removeFromCart,
+  useCart,
+} from "@/utils/data.ts";
 
 // Lazy load a <dialog> polyfill.
 // @ts-expect-error HTMLDialogElement is not just a type!
@@ -21,6 +29,7 @@ const backdrop = "bg-black bg-opacity-50";
 
 export default function Cart() {
   const { data, error } = useCart();
+  const totalItems = data?.reduce((acc, item) => acc + item.quantity, 0);
 
   const ref = useRef<HTMLDialogElement | null>(null);
 
@@ -41,7 +50,7 @@ export default function Cart() {
         class="flex items-center gap-2 border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
       >
         <IconCart />
-        {data?.length ?? "0"}
+        {totalItems}
       </button>
       <dialog
         ref={ref}
@@ -59,6 +68,11 @@ function CartInner() {
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
   const { data: cart, error } = useCart();
+
+  const subTotal = cart?.reduce(
+    (acc, item) => acc + item.product.price * item.quantity,
+    0,
+  );
 
   const checkout = (e: Event) => {
     e.preventDefault();
@@ -80,7 +94,7 @@ function CartInner() {
   return (
     <div class={card}>
       <div class="flex justify-between">
-        <h2 class="text-lg font-medium text-gray-900">Shopping Cart</h2>
+        <h2 class="text-lg font-medium text-gray-900">Giỏ hàng</h2>
         <button
           class="py-1"
           onClick={(e) => {
@@ -102,38 +116,58 @@ function CartInner() {
             ? <p class="text-gray-700">There are no items in the cart.</p>
             : (
               <ul role="list" class="-my-6 divide-y divide-gray-200">
-                {cart.map((p) => (
+                {cart.map(({ product, quantity }) => (
                   <li class="flex py-6">
                     <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
-                        src={p.thumb_url}
-                        alt={p.name}
+                        src={product.thumb_url}
+                        alt={product.name}
                         class="h-full w-full object-cover object-center"
                       />
                     </div>
                     <div class="ml-4 flex flex-1 flex-col">
                       <div>
                         <div class="flex justify-between text-base font-medium text-gray-900">
-                          <h3>{p.name}</h3>
+                          <h3>{product.name}</h3>
                           <p class="ml-4">
                             {formatCurrency({
-                              amount: p.price,
+                              amount: product.price,
                               currencyCode: "VND",
                             })}
                           </p>
                         </div>
                         <p class="mt-1 text-sm text-gray-500">
-                          {p.name}
+                          {product.name}
                         </p>
                       </div>
                       <div class="flex flex-1 items-end justify-between text-sm">
+                        <p class="text-gray-500 flex flex-row space-x-3 items-center">
+                          <span>Số lượng</span>
+                          <strong class="flex flex-row items-center justify-center space-x-2">
+                            <button
+                              class="border-gray-300 border-2 rounded-full"
+                              onClick={() =>
+                                changeQuantity(cart, product.id, -1)}
+                            >
+                              <IconMinus size={18} />
+                            </button>
+                            <span class="text-lg">{quantity}</span>
+                            <button
+                              class="border-gray-300 border-2 rounded-full"
+                              onClick={() =>
+                                changeQuantity(cart, product.id, 1)}
+                            >
+                              <IconPlus size={18} />
+                            </button>
+                          </strong>
+                        </p>
                         <div class="flex">
                           <button
                             type="button"
                             class="font-medium"
-                            onClick={() => remove(p.id)}
+                            onClick={() => remove(product.id)}
                           >
-                            Remove
+                            Xoá
                           </button>
                         </div>
                       </div>
@@ -147,25 +181,26 @@ function CartInner() {
       {cart && (
         <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
           <div class="flex justify-between text-lg font-medium">
-            <p>Subtotal</p>
-            {/* <p>{formatCurrency(cart.estimatedCost.totalAmount)}</p> */}
+            <p>Tổng cộng</p>
+            <p>
+              {formatCurrency({
+                amount: subTotal as number,
+                currencyCode: "VND",
+              })}
+            </p>
           </div>
-          <p class="mt-0.5 text-sm text-gray-500">
-            Shipping and taxes calculated at checkout.
-          </p>
-          <div class="mt-6">
+          <div class="mt-3">
             <button
               type="button"
               class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
               disabled={cart.length === 0}
               onClick={checkout}
             >
-              Checkout
+              Thanh toán
             </button>
           </div>
           <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
             <p>
-              or&nbsp;
               <button
                 type="button"
                 class="font-medium"
@@ -173,7 +208,7 @@ function CartInner() {
                   (e.target as HTMLButtonElement).closest("dialog")!.close();
                 }}
               >
-                Continue Shopping <span aria-hidden="true">&rarr;</span>
+                Tiếp tục mua sắm <span aria-hidden="true">&rarr;</span>
               </button>
             </p>
           </div>
