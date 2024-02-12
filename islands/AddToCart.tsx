@@ -19,7 +19,8 @@ export default function AddToCart(props: AddToCartProps) {
   return (
     <div class="w-full flex flex-row space-x-1">
       <BuyNow buy_now_url={props.buy_now_url} />
-      {/* <button
+      {
+        /* <button
         onClick={add}
         disabled={!data && !isAdding}
         class={`w-1/2 ${
@@ -27,7 +28,8 @@ export default function AddToCart(props: AddToCartProps) {
         } border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-900 cursor-pointer`}
       >
         {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
-      </button> */}
+      </button> */
+      }
     </div>
   );
 }

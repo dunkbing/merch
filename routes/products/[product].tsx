@@ -69,7 +69,9 @@ export default function ProductPage(ctx: PageProps<Query>) {
       <div class="w-11/12 max-w-5xl mx-auto mt-8">
         <p className="text-2xl font-bold mt-16 mb-4">Sản phẩm tương tự</p>
         <div class="lg:grid lg:grid-cols-3 lg:gap-x-16">
-          {data.relatedProducts.map((product) => <ProductCard product={product} />)}
+          {data.relatedProducts.map((product) => (
+            <ProductCard product={product} />
+          ))}
         </div>
       </div>
     </>
