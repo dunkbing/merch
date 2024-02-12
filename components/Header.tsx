@@ -14,7 +14,7 @@ export function Header() {
           <img
             src="/logo.svg"
             alt="Deno Logo"
-            class="h-14 w-14"
+            class="h-20 w-20 mt-4"
           />
         </a>
         <h1>
@@ -26,7 +26,7 @@ export function Header() {
             height="24"
           />
         </h1>
-        <Cart />
+        {/* <Cart /> */}
       </nav>
     </header>
   );

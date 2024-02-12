@@ -64,9 +64,9 @@ export default function ProductDetails({ product }: { product: Product }) {
           <div class="mt-4 space-y-6">
             <p
               class={`text-base text-gray-600`}
-            >
-              {product.description}
-            </p>
+              dangerouslySetInnerHTML={
+                { __html: product.description }}
+            />
           </div>
         </section>
       </div>

@@ -2,20 +2,26 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import ProductDetails from "@/islands/ProductDetails.tsx";
 import { Product } from "@/utils/types.ts";
-import { getProduct } from "@/utils/db/product.ts";
+import { getProduct, getProducts } from "@/utils/db/product.ts";
+import { ProductCard } from "@/components/ProductCard.tsx";
 
 interface Query {
   product: Product | null;
+  relatedProducts: Product[];
 }
 
 export const handler: Handlers<Query> = {
   async GET(_req, ctx) {
     try {
       const product = await getProduct(ctx.params.product);
-      return ctx.render({ product });
+      const relatedProducts = await getProducts({
+        limit: 3,
+      });
+      return ctx.render({ product, relatedProducts });
     } catch (error) {
       return ctx.render({
         product: null,
+        relatedProducts: [],
       });
     }
   },
@@ -57,7 +63,15 @@ export default function ProductPage(ctx: PageProps<Query>) {
           Quay lại
         </a>
       </div>
+
       <ProductDetails product={data.product!} />
+
+      <div class="w-11/12 max-w-5xl mx-auto mt-8">
+        <p className="text-2xl font-bold mt-16 mb-4">Sản phẩm tương tự</p>
+        <div class="lg:grid lg:grid-cols-3 lg:gap-x-16">
+          {data.relatedProducts.map((product) => <ProductCard product={product} />)}
+        </div>
+      </div>
     </>
   );
 }
