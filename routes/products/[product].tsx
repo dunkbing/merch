@@ -16,7 +16,7 @@ export const handler: Handlers<Query> = {
       const [product, relatedProducts] = await Promise.all([
         getProduct(ctx.params.product),
         getProducts({ limit: 3 }),
-      ])
+      ]);
       return ctx.render({ product, relatedProducts });
     } catch (error) {
       return ctx.render({

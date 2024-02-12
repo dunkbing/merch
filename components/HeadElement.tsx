@@ -3,16 +3,25 @@ import { Head } from "$fresh/runtime.ts";
 export type HeadProps = {
   url: URL;
   title: string;
-  description: string;
+  description?: string;
   image?: string;
 };
 
-export function HeadElement({ description, image, title, url }: HeadProps) {
+const SITE_DESCRIPTION = "Danh sách những bài hát có sheet";
+const SITE_TITLE = "Sheet Nhạc";
+
+export function HeadElement(
+  { description = SITE_DESCRIPTION, image, title, url }: HeadProps,
+) {
   return (
     <Head>
-      <title>{title}</title>
+      <title>{title ? `${title} - ${SITE_TITLE}` : SITE_TITLE}</title>
       <link rel="icon" href="/favicon.ico" sizes="32x32" />
       <meta name="description" content={description} />
+      <meta
+        name="keywords"
+        content="nốt nhạc, sheet nhạc, bản nhạc, nhạc tờ, hợp âm"
+      />
 
       {/* Facebook Meta Tags */}
       <meta property="og:url" content={url.href} />

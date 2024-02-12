@@ -13,14 +13,14 @@ export function Header() {
         <a href="/">
           <img
             src="/logo.svg"
-            alt="Deno Logo"
+            alt="SheetNhac Logo"
             class="h-20 w-20 mt-4"
           />
         </a>
         <h1>
           <img
             src="/text_logo.svg"
-            alt="Deno Merch"
+            alt="SheetNhac Logo"
             class="h-6"
             width="130"
             height="24"
