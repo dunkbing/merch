@@ -13,10 +13,10 @@ interface Query {
 export const handler: Handlers<Query> = {
   async GET(_req, ctx) {
     try {
-      const product = await getProduct(ctx.params.product);
-      const relatedProducts = await getProducts({
-        limit: 3,
-      });
+      const [product, relatedProducts] = await Promise.all([
+        getProduct(ctx.params.product),
+        getProducts({ limit: 3 }),
+      ])
       return ctx.render({ product, relatedProducts });
     } catch (error) {
       return ctx.render({
