@@ -41,33 +41,11 @@ export default function ProductDetails({ product }: { product: Product }) {
               {product.price_formatted}
             </div>
           </div>
+          <p
+            class={`mt-1.5 text-base text-gray-600`}
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
         </div>
-
-        <section
-          aria-labelledby="information-heading"
-          class="mt-12 pt-6 border-t-1 border-gray-200"
-        >
-          <h2 id="information-heading" class="sr-only">
-            Product information
-          </h2>
-
-          {
-            /* {!product.available && (
-            <div class="flex items-center">
-              <p class="text-base text-gray-500">
-                Out of stock
-              </p>
-            </div>
-          )} */
-          }
-
-          <div class="mt-4 space-y-6">
-            <p
-              class={`text-base text-gray-600`}
-              dangerouslySetInnerHTML={{ __html: product.description }}
-            />
-          </div>
-        </section>
       </div>
 
       {/* Product image */}

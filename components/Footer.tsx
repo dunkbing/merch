@@ -13,7 +13,7 @@ export function Footer() {
       <span class="flex items-center gap-4">
         <a
           class="hover:underline flex gap-2 items-center font-bold text-xl text-gray-600"
-          href="https://github.com/dunkbing/merch"
+          href="https://www.tiktok.com/@sheetnhac.cc"
           target="_blank"
         >
           <IconBrandTiktok class="" size={30} />
