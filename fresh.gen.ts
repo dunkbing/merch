@@ -3,6 +3,8 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $_app from "./routes/_app.tsx";
+import * as $chords_slug_ from "./routes/chords/[slug].tsx";
+import * as $chords_index from "./routes/chords/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $products_product_ from "./routes/products/[product].tsx";
 import * as $AddToCart from "./islands/AddToCart.tsx";
@@ -14,6 +16,8 @@ import { type Manifest } from "$fresh/server.ts";
 const manifest = {
   routes: {
     "./routes/_app.tsx": $_app,
+    "./routes/chords/[slug].tsx": $chords_slug_,
+    "./routes/chords/index.tsx": $chords_index,
     "./routes/index.tsx": $index,
     "./routes/products/[product].tsx": $products_product_,
   },

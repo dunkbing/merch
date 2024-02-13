@@ -10,22 +10,30 @@ export function Header() {
     >
       <div class="rainfall w-full h-full absolute" />
       <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
-        <a href="/">
+        <a
+          href="/"
+          className="flex flex-row items-center space-x-2 mt-4 cursor-pointer"
+        >
           <img
             src="/logo.svg"
             alt="SheetNhac Logo"
-            class="h-20 w-20 mt-4"
+            class="h-16 w-16"
           />
-        </a>
-        <h1>
           <img
             src="/text_logo.svg"
             alt="SheetNhac Logo"
-            class="h-6"
             width="130"
             height="24"
           />
-        </h1>
+        </a>
+        <div className="flex flex-row items-center space-x-4 mt-4 text-xl font-semibold font-serif text-gray-800 hover:text-gray-700">
+          <a href="/">
+            Trang chủ
+          </a>
+          <a href="/chords">
+            Hợp âm
+          </a>
+        </div>
         {/* <Cart /> */}
       </nav>
     </header>
