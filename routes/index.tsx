@@ -37,8 +37,8 @@ export default function Home(ctx: PageProps<Data>) {
         class="w-11/12 max-w-5xl mx-auto mt-28"
         aria-labelledby="information-heading"
       >
-        <h2 id="information-heading" class="sr-only">
-          Product List
+        <h2 id="information-heading" class="text-3xl font-bold text-gray-800 mb-8">
+          Sheet nhạc
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:!gap-x-10 sm:!grid-cols-2 lg:!grid-cols-3 lg:!gap-x-12 lg:!gap-y-10">
           {products.map((product) => <ProductCard product={product} />)}
