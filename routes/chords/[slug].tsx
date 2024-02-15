@@ -28,7 +28,7 @@ export default function PostPage(props: PageProps<Post>) {
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
       <h1 class="text-4xl text-center font-bold my-8">{post.title}</h1>
-      <main class="max-w-screen-md px-4 py-8 mx-auto bg-white">
+      <main class="max-w-screen-md p-8 mx-auto bg-white">
         <time class="text-gray-500">
           {new Date(post.publishedAt).toLocaleDateString("en-us", {
             year: "numeric",
