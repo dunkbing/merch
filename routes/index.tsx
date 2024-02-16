@@ -1,22 +1,29 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { HeadElement } from "@/components/HeadElement.tsx";
-import { Product } from "@/utils/types.ts";
+import { Post, Product } from "@/utils/types.ts";
 import { getProducts } from "@/utils/db/product.ts";
 import { ProductCard } from "@/components/ProductCard.tsx";
+import { getPosts } from "@/utils/post.ts";
+import { PostCard } from "@/components/PostCard.tsx";
 
 interface Data {
   products: Product[];
+  posts: Post[];
 }
 
 export const handler: Handlers<Data> = {
   async GET(_req, ctx) {
     try {
-      const products = await getProducts({});
-      return ctx.render({ products });
+      const [products, posts] = await Promise.all([
+        getProducts({}),
+        getPosts(3),
+      ]);
+      return ctx.render({ products, posts });
     } catch (error) {
       console.error(error);
       return ctx.render({
         products: [],
+        posts: [],
       });
     }
   },
@@ -24,7 +31,7 @@ export const handler: Handlers<Data> = {
 
 export default function Home(ctx: PageProps<Data>) {
   const { data, url } = ctx;
-  const products = data.products;
+  const { products, posts } = data;
 
   return (
     <div>
@@ -34,10 +41,17 @@ export default function Home(ctx: PageProps<Data>) {
         url={url}
       />
       <div
-        class="w-11/12 max-w-5xl mx-auto mt-28"
+        class="w-8/12 max-w-5xl mx-auto mt-28"
         aria-labelledby="information-heading"
       >
-        <h2 id="information-heading" class="text-3xl font-bold text-gray-800 mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">
+          Hợp âm <a href="/chords" class="text-blue-500">(Xem tất cả)</a>
+        </h2>
+        <div class="">
+          {posts.map((post) => <PostCard post={post} />)}
+        </div>
+        <div class="my-8" />
+        <h2 class="text-3xl font-bold text-gray-800 mb-8">
           Sheet nhạc
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:!gap-x-10 sm:!grid-cols-2 lg:!grid-cols-3 lg:!gap-x-12 lg:!gap-y-10">
