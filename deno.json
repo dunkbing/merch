@@ -18,7 +18,7 @@
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.1",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.0",
     "$gfm": "https://deno.land/x/gfm@0.6.0/mod.ts",
-    "tabler_icons_tsx/": "https://deno.land/x/tabler_icons_tsx@0.0.4/tsx/",
+    "tabler_icons_tsx/": "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/",
     "@libsql/client/": "https://esm.sh/@libsql/client@0.4.0-pre.7/",
     "tailwindcss": "npm:tailwindcss@3.3.5",
     "tailwindcss/": "npm:/tailwindcss@3.3.5/",

@@ -10,6 +10,7 @@ import * as $products_product_ from "./routes/products/[product].tsx";
 import * as $AddToCart from "./islands/AddToCart.tsx";
 import * as $BuyNow from "./islands/BuyNow.tsx";
 import * as $Cart from "./islands/Cart.tsx";
+import * as $DownloadBtn from "./islands/DownloadBtn.tsx";
 import * as $ProductDetails from "./islands/ProductDetails.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -25,6 +26,7 @@ const manifest = {
     "./islands/AddToCart.tsx": $AddToCart,
     "./islands/BuyNow.tsx": $BuyNow,
     "./islands/Cart.tsx": $Cart,
+    "./islands/DownloadBtn.tsx": $DownloadBtn,
     "./islands/ProductDetails.tsx": $ProductDetails,
   },
   baseUrl: import.meta.url,

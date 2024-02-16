@@ -1,6 +1,7 @@
 import { formatCurrency } from "@/utils/data.ts";
 import { Product } from "@/utils/types.ts";
 import AddToCart from "@/islands/AddToCart.tsx";
+import DownloadBtn from "@/islands/DownloadBtn.tsx";
 
 export default function ProductDetails({ product }: { product: Product }) {
   let index = 0;
@@ -124,7 +125,8 @@ export default function ProductDetails({ product }: { product: Product }) {
         </div>
         <div class="lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
           <div class="mt-4 self-end">
-            <AddToCart {...product} />
+            {/* <AddToCart {...product} /> */}
+            <DownloadBtn />
           </div>
         </div>
       </div>

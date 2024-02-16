@@ -1,4 +1,4 @@
-import IconCart from "@/components/IconCart.tsx";
+import IconEye from "tabler_icons_tsx/eye.tsx"
 import { Product } from "@/utils/types.ts";
 
 export function ProductCard(props: { product: Product }) {
@@ -19,7 +19,7 @@ export function ProductCard(props: { product: Product }) {
           />
         )}
         <div class="w-full h-full flex items-center justify-center bg-[rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-all duration-500">
-          <IconCart size={30} />
+          <IconEye size={30} />
         </div>
       </div>
       <div class="flex items-center justify-between mt-3">
@@ -27,9 +27,9 @@ export function ProductCard(props: { product: Product }) {
           {product.name}
           <span class="bg-gray-800 h-[3px] w-0 group-hover:!w-full absolute bottom-[-2px] left-0 transition-all duration-400" />
         </h3>
-        <strong class="text-lg font-bold text-gray-800">
+        {/* <strong class="text-lg font-bold text-gray-800">
           {product.price_formatted}
-        </strong>
+        </strong> */}
       </div>
     </a>
   );

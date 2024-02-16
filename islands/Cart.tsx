@@ -1,7 +1,7 @@
 import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import IconPlus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/plus.tsx";
-import IconMinus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/minus.tsx";
+import IconPlus from "tabler_icons_tsx/plus.tsx";
+import IconMinus from "tabler_icons_tsx/minus.tsx";
 
 import IconCart from "@/components/IconCart.tsx";
 import {
