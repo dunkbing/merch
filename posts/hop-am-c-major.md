@@ -1,7 +1,7 @@
 ---
 title: Hợp âm Đô trưởng (C) trên Piano
 published_at: '2024-02-15T15:00:00.000Z'
-snippet: Những hợp âm piano cơ bản trong đệm hát theo từng giọng hay âm giai.
+snippet: Hợp âm Đô trưởng (C Major) là một trong những hợp âm cơ bản phổ biến
 ---
 
 **Hợp âm Đô trưởng (C Major)** là một trong những hợp âm cơ bản phổ biến,  thường xuất hiện trong rất nhiều sáng tác âm nhạc không riêng gì thể loại nhạc cụ như guitar, piano hoặc organ. Đặc điểm thú vị này khiến chúng trở thành một trong những kiến thức đầu tiên mà học viên được học khi bắt đầu làm quen với các loại nhạc cụ.
