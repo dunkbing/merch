@@ -1,11 +1,12 @@
 import { Post } from "@/utils/types.ts";
+import { PostType } from "@/utils/post.ts";
 
-export function PostCard(props: { post: Post }) {
-  const { post } = props;
+export function PostCard(props: { post: Post; type: PostType }) {
+  const { post, type } = props;
 
   return (
     <div class="py-5 border(t gray-200)">
-      <a class="sm:col-span-2" href={`/chords/${post.slug}`}>
+      <a class="sm:col-span-2" href={`/posts/${type}/${post.slug}`}>
         <h3 class="text-2xl text-gray-700 font-bold underline">
           {post.title}
         </h3>

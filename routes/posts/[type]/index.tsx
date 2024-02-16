@@ -1,18 +1,20 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { getPosts } from "@/utils/post.ts";
+import { getPosts, PostType } from "@/utils/post.ts";
 import { Post } from "@/utils/types.ts";
 import { HeadElement } from "@/components/HeadElement.tsx";
 import { PostCard } from "@/components/PostCard.tsx";
 
-export const handler: Handlers<Post[]> = {
+type Props = { posts: Post[]; type: PostType };
+export const handler: Handlers<Props> = {
   async GET(_req, ctx) {
-    const posts = await getPosts();
-    return ctx.render(posts);
+    const postType = ctx.params.type as PostType;
+    const posts = await getPosts(postType);
+    return ctx.render({ posts, type: postType });
   },
 };
 
-export default function ChordsIndexPage(props: PageProps<Post[]>) {
-  const posts = props.data;
+export default function ChordsIndexPage(props: PageProps<Props>) {
+  const { posts, type } = props.data;
 
   return (
     <>
@@ -26,7 +28,7 @@ export default function ChordsIndexPage(props: PageProps<Post[]>) {
           Hợp âm
         </h2>
         <div class="">
-          {posts.map((post) => <PostCard post={post} />)}
+          {posts.map((post) => <PostCard post={post} type={type} />)}
         </div>
       </main>
     </>

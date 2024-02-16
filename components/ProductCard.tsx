@@ -1,4 +1,4 @@
-import IconEye from "tabler_icons_tsx/eye.tsx"
+import IconEye from "tabler_icons_tsx/eye.tsx";
 import { Product } from "@/utils/types.ts";
 
 export function ProductCard(props: { product: Product }) {
@@ -27,9 +27,11 @@ export function ProductCard(props: { product: Product }) {
           {product.name}
           <span class="bg-gray-800 h-[3px] w-0 group-hover:!w-full absolute bottom-[-2px] left-0 transition-all duration-400" />
         </h3>
-        {/* <strong class="text-lg font-bold text-gray-800">
+        {
+          /* <strong class="text-lg font-bold text-gray-800">
           {product.price_formatted}
-        </strong> */}
+        </strong> */
+        }
       </div>
     </a>
   );

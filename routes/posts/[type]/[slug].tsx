@@ -3,12 +3,13 @@ import { Head } from "$fresh/runtime.ts";
 import { CSS, render } from "$gfm";
 
 import { Post } from "@/utils/types.ts";
-import { getPost } from "@/utils/post.ts";
+import { getPost, PostType } from "@/utils/post.ts";
 import { HeadElement } from "@/components/HeadElement.tsx";
 
 export const handler: Handlers<Post> = {
   async GET(_req, ctx) {
-    const post = await getPost(ctx.params.slug);
+    const postType = ctx.params.type as PostType;
+    const post = await getPost(ctx.params.slug, postType);
     if (post === null) return ctx.renderNotFound();
     return ctx.render(post);
   },

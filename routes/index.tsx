@@ -16,7 +16,7 @@ export const handler: Handlers<Data> = {
     try {
       const [products, posts] = await Promise.all([
         getProducts({}),
-        getPosts(3),
+        getPosts("chords", 3),
       ]);
       return ctx.render({ products, posts });
     } catch (error) {
@@ -48,7 +48,7 @@ export default function Home(ctx: PageProps<Data>) {
           Hợp âm <a href="/chords" class="text-blue-500">(Xem tất cả)</a>
         </h2>
         <div class="">
-          {posts.map((post) => <PostCard post={post} />)}
+          {posts.map((post) => <PostCard post={post} type="chords" />)}
         </div>
         <div class="my-8" />
         <h2 class="text-3xl font-bold text-gray-800 mb-8">
