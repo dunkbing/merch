@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://sheetnhac.cc/sitemap.xml
+Sitemap: https://sheetnhac.cc/mysites.xml
