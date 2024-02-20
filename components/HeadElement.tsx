@@ -37,6 +37,19 @@ export function HeadElement(
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       {image && <meta name="twitter:image" content={image} />}
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-ZJF7E4QKYV"
+      />
+      <script>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-Z0RZF9J35J');
+        `}
+      </script>
     </Head>
   );
 }
