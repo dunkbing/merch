@@ -7,6 +7,7 @@ import * as $index from "./routes/index.tsx";
 import * as $posts_type_slug_ from "./routes/posts/[type]/[slug].tsx";
 import * as $posts_type_index from "./routes/posts/[type]/index.tsx";
 import * as $products_product_ from "./routes/products/[product].tsx";
+import * as $resources_index from "./routes/resources/index.tsx";
 import * as $AddToCart from "./islands/AddToCart.tsx";
 import * as $BuyNow from "./islands/BuyNow.tsx";
 import * as $Cart from "./islands/Cart.tsx";
@@ -21,6 +22,7 @@ const manifest = {
     "./routes/posts/[type]/[slug].tsx": $posts_type_slug_,
     "./routes/posts/[type]/index.tsx": $posts_type_index,
     "./routes/products/[product].tsx": $products_product_,
+    "./routes/resources/index.tsx": $resources_index,
   },
   islands: {
     "./islands/AddToCart.tsx": $AddToCart,

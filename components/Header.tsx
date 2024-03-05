@@ -26,7 +26,7 @@ export function Header() {
             height="24"
           />
         </a>
-        <div className="flex flex-row items-center space-x-4 mt-4 text-xl font-semibold font-serif text-gray-700 hover:text-gray-600">
+        <div className="flex flex-row items-center space-x-6 mt-4 text-xl font-semibold font-serif text-gray-700 hover:text-gray-600">
           <a href="/">
             Trang chủ
           </a>
@@ -35,6 +35,9 @@ export function Header() {
           </a>
           <a href="/posts/chords">
             Hợp âm
+          </a>
+          <a href="/resources">
+            Tài liệu
           </a>
         </div>
         {/* <Cart /> */}
